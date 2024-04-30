@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
+    "@nestjs/config": "^3.2.2",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
     "reflect-metadata": "^0.2.0",
@@ -70,7 +71,8 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^libs/config(|/.*)$": "<rootDir>/libs/config/src/$1"
+      "^libs/config(|/.*)$": "<rootDir>/libs/config/src/$1",
+      "^@app/common(|/.*)$": "<rootDir>/libs/common/src/$1"
     }
   }
 }
