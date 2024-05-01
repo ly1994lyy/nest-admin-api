@@ -2,10 +2,12 @@ import { NestFactory } from '@nestjs/core';
 import { AdminModule } from './admin.module';
 import * as process from 'process';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { TransformInterceptor } from '@app/common/transform/transform.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AdminModule);
   app.enableCors();
+  app.useGlobalInterceptors(new TransformInterceptor());
   const options = new DocumentBuilder()
     .setTitle('基于Nestjs的一个通用后台管理系统接口api')
     .setVersion('1.0')
