@@ -5,6 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AdminModule);
+  app.enableCors();
   const options = new DocumentBuilder()
     .setTitle('基于Nestjs的一个通用后台管理系统接口api')
     .setVersion('1.0')
