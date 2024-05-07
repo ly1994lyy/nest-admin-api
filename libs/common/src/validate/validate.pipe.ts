@@ -18,11 +18,11 @@ export class ValidatePipe implements PipeTransform {
     const errors = await validate(object);
     if (errors.length > 0) {
       throw new BadRequestException({
-        message: Object.values(errors[0].constraints)[0],
+        msg: Object.values(errors[0].constraints)[0],
+        code: HttpStatus.BAD_REQUEST,
         status: HttpStatus.BAD_REQUEST,
       });
     }
-    console.log(errors);
 
     return value;
   }
