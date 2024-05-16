@@ -17,4 +17,8 @@ export class ErrorCodeEnum {
 
   public static SUCCESS = new ErrorCodeEnum('0000', 'Success');
   public static USER_EXISTED = new ErrorCodeEnum('10000', '用户已存在');
+  public static USER_Login_Error = new ErrorCodeEnum(
+    '10001',
+    '用户不存在或者密码错误',
+  );
 }
