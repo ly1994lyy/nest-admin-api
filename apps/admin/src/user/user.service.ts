@@ -6,7 +6,6 @@ import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { ApiException } from '@app/common/http-exception/api.exception';
 import { ErrorCodeEnum } from '@app/common/enums/errorCodeEnum';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -20,19 +19,9 @@ export class UserService {
       },
     });
     if (user) {
-      console.log(
-        this.user.findOne({
-          where: {
-            username: createUserDto.username,
-          },
-        }),
-      );
       throw new ApiException(ErrorCodeEnum.USER_EXISTED);
     }
-    return this.user.save({
-      ...createUserDto,
-      password: bcrypt.hashSync(createUserDto.password, 10),
-    });
+    return this.user.save(this.user.create(createUserDto));
   }
 
   findAll() {

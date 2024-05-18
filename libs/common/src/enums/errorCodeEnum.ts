@@ -21,4 +21,8 @@ export class ErrorCodeEnum {
     '10001',
     '用户不存在或者密码错误',
   );
+  public static USER_NO_AUTH = new ErrorCodeEnum(
+    '10002',
+    '用户未登录或者登录已过期',
+  );
 }

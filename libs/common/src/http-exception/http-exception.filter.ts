@@ -21,13 +21,13 @@ export class HttpExceptionFilter implements ExceptionFilter {
       });
       return;
     }
-    const { msg, code } = exception.getResponse() as {
-      msg: string;
-      code: string;
+    const { message, statusCode } = exception.getResponse() as {
+      message: string;
+      statusCode: string;
     };
     response.status(status).json({
-      code,
-      msg,
+      code: statusCode,
+      msg: message,
     });
   }
 }
