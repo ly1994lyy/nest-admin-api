@@ -12,6 +12,7 @@ export class UserService {
   constructor(
     @InjectRepository(User) private readonly user: Repository<User>,
   ) {}
+
   async create(createUserDto: CreateUserDto) {
     const user = await this.user.findOne({
       where: {
@@ -34,8 +35,15 @@ export class UserService {
     });
   }
 
-  findUserName(username: string) {
+  findUserByName(username: string) {
     return this.user.findOne({ where: { username } });
+  }
+
+  findByNameWithPass(username: string) {
+    return this.user.findOne({
+      where: { username },
+      select: ['username', 'password'],
+    });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
