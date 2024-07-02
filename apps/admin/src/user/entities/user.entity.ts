@@ -4,10 +4,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Role } from '../../role/entities/role.entity';
 
 @Entity()
 export class User {
@@ -24,10 +27,14 @@ export class User {
   avatar: string;
 
   @CreateDateColumn()
-  createdAt: Date;
+  createTime: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updateTime: Date;
+
+  @ManyToMany(() => Role)
+  @JoinTable({ name: 'user_role_relation' })
+  roles: Role[];
 
   @BeforeUpdate()
   @BeforeInsert()
