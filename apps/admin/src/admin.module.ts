@@ -6,9 +6,10 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { RoleModule } from './role/role.module';
 import { PermissionModule } from './permission/permission.module';
+import { MenuModule } from './menu/menu.module';
 
 @Module({
-  imports: [CommonModule, AuthModule, UserModule, RoleModule, PermissionModule],
+  imports: [CommonModule, AuthModule, UserModule, RoleModule, PermissionModule, MenuModule],
   controllers: [AdminController],
   providers: [AdminService],
 })

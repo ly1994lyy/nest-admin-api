@@ -29,14 +29,18 @@ export class UserService {
     return this.user.find();
   }
 
-  findOne(id: number) {
+  findOne(id: bigint) {
     return this.user.findOne({
-      where: {},
+      where: { id },
+      relations: ['roles', 'menus'],
     });
   }
 
   findUserByName(username: string) {
-    return this.user.findOne({ where: { username } });
+    return this.user.findOne({
+      where: { username },
+      relations: ['roles', 'menus'],
+    });
   }
 
   findByNameWithPass(username: string) {

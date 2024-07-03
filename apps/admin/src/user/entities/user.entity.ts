@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Role } from '../../role/entities/role.entity';
+import { Menu } from '../../menu/entities/menu.entity';
 
 @Entity()
 export class User {
@@ -35,6 +36,10 @@ export class User {
   @ManyToMany(() => Role)
   @JoinTable({ name: 'user_role_relation' })
   roles: Role[];
+
+  @ManyToMany(() => Menu)
+  @JoinTable({ name: 'user_menu_relation' })
+  menus: Menu[];
 
   @BeforeUpdate()
   @BeforeInsert()
