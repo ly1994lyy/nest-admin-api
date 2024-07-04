@@ -6,11 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { PermissionService } from './permission.service';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 import { UpdatePermissionDto } from './dto/update-permission.dto';
+import { JwtGuard } from '../auth/jwt.guard';
 
+@UseGuards(JwtGuard)
 @Controller('permission')
 export class PermissionController {
   constructor(private readonly permissionService: PermissionService) {}
@@ -27,7 +30,7 @@ export class PermissionController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.permissionService.findOne(+id);
+    return this.permissionService.findOneById(+id);
   }
 
   @Patch(':id')
@@ -40,6 +43,6 @@ export class PermissionController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.permissionService.remove(+id);
+    return this.permissionService.removeById(+id);
   }
 }

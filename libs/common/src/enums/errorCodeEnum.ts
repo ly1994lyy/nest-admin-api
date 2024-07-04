@@ -25,4 +25,10 @@ export class ErrorCodeEnum {
     '10002',
     '用户未登录或者登录已过期',
   );
+
+  //2XX为权限相关错误码
+  public static PERMISSION_Login_EXISTED = new ErrorCodeEnum(
+    '20000',
+    '权限已存在',
+  );
 }
