@@ -6,4 +6,7 @@ export class CreateUserDto {
 
   @IsNotEmpty({ message: '密码不能为空' })
   password: string;
+
+  avatar: string;
+  roles: number[];
 }

@@ -6,11 +6,13 @@ import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { ApiException } from '@app/common/http-exception/api.exception';
 import { ErrorCodeEnum } from '@app/common/enums/errorCodeEnum';
+import { RoleService } from '../role/role.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private readonly user: Repository<User>,
+    private readonly roleService: RoleService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -22,24 +24,30 @@ export class UserService {
     if (user) {
       throw new ApiException(ErrorCodeEnum.USER_EXISTED);
     }
-    return this.user.save(this.user.create(createUserDto));
+    const newUser = new User();
+    newUser.username = createUserDto.username;
+    newUser.password = createUserDto.password;
+    newUser.avatar = createUserDto.avatar;
+    newUser.roles = await this.roleService.findAllByIds(createUserDto.roles);
+    return this.user.save(newUser);
   }
 
   findAll() {
-    return this.user.find();
+    return this.user.find({
+      relations: ['roles', 'menus', 'roles.permissions'],
+    });
   }
 
   findOne(id: bigint) {
     return this.user.findOne({
       where: { id },
-      relations: ['roles', 'menus'],
+      relations: ['roles', 'menus', 'roles.permissions'],
     });
   }
 
   findUserByName(username: string) {
     return this.user.findOne({
       where: { username },
-      relations: ['roles', 'menus'],
     });
   }
 

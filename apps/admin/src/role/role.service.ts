@@ -3,7 +3,7 @@ import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Role } from './entities/role.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { PermissionService } from '../permission/permission.service';
 import { ApiException } from '@app/common/http-exception/api.exception';
 import { ErrorCodeEnum } from '@app/common/enums/errorCodeEnum';
@@ -31,6 +31,13 @@ export class RoleService {
   findOneById(id: number) {
     return this.roleRepository.findOne({
       where: { id },
+      relations: ['permissions'],
+    });
+  }
+
+  findAllByIds(ids: number[]) {
+    return this.roleRepository.find({
+      where: { id: In(ids) },
       relations: ['permissions'],
     });
   }
