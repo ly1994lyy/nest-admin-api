@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 import { UpdatePermissionDto } from './dto/update-permission.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Permission } from './entities/permission.entity';
 import { ApiException } from '@app/common/http-exception/api.exception';
 import { ErrorCodeEnum } from '@app/common/enums/errorCodeEnum';
@@ -28,6 +28,10 @@ export class PermissionService {
 
   findAll() {
     return this.permissionRepository.find();
+  }
+
+  findAllByIds(ids: number[]) {
+    return this.permissionRepository.find({ where: { id: In(ids) } });
   }
 
   findOneById(id: number) {

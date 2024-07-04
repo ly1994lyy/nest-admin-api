@@ -31,4 +31,7 @@ export class ErrorCodeEnum {
     '20000',
     '权限已存在',
   );
+
+  //3XX为角色相关错误码
+  public static ROLE_NOT_EXISTED = new ErrorCodeEnum('30000', '角色不存在');
 }
