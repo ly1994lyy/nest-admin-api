@@ -6,4 +6,5 @@ export class CreateRoleDto {
 
   description: string;
   permissions: number[];
+  menus: number[];
 }
