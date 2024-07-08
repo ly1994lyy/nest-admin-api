@@ -58,11 +58,20 @@ export class UserService {
     });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    const user = await this.userRepository.findOne({
+      where: {
+        username: updateUserDto.username,
+      },
+    });
+    if (!user) {
+      throw new ApiException(ErrorCodeEnum.USER_Login_Error);
+    }
+    user.roles = await this.roleService.findAllByIds(updateUserDto.roles);
+    return this.userRepository.save(user);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
+    return this.userRepository.delete(id);
   }
 }
