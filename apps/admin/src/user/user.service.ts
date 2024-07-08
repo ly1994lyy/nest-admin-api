@@ -34,14 +34,14 @@ export class UserService {
 
   findAll() {
     return this.user.find({
-      relations: ['roles', 'menus', 'roles.permissions'],
+      relations: ['roles', 'roles.permissions'],
     });
   }
 
   findOne(id: bigint) {
     return this.user.findOne({
       where: { id },
-      relations: ['roles', 'menus', 'roles.permissions'],
+      relations: ['roles', 'roles.permissions'],
     });
   }
 
