@@ -11,12 +11,12 @@ import { RoleService } from '../role/role.service';
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User) private readonly user: Repository<User>,
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
     private readonly roleService: RoleService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const user = await this.user.findOne({
+    const user = await this.userRepository.findOne({
       where: {
         username: createUserDto.username,
       },
@@ -29,30 +29,30 @@ export class UserService {
     newUser.password = createUserDto.password;
     newUser.avatar = createUserDto.avatar;
     newUser.roles = await this.roleService.findAllByIds(createUserDto.roles);
-    return this.user.save(newUser);
+    return this.userRepository.save(newUser);
   }
 
   findAll() {
-    return this.user.find({
+    return this.userRepository.find({
       relations: ['roles', 'roles.permissions'],
     });
   }
 
   findOne(id: bigint) {
-    return this.user.findOne({
+    return this.userRepository.findOne({
       where: { id },
       relations: ['roles', 'roles.permissions'],
     });
   }
 
   findUserByName(username: string) {
-    return this.user.findOne({
+    return this.userRepository.findOne({
       where: { username },
     });
   }
 
   findByNameWithPass(username: string) {
-    return this.user.findOne({
+    return this.userRepository.findOne({
       where: { username },
       select: ['username', 'password'],
     });
