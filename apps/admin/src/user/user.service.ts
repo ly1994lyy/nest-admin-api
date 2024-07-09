@@ -7,6 +7,7 @@ import { User } from './entities/user.entity';
 import { ApiException } from '@app/common/http-exception/api.exception';
 import { ErrorCodeEnum } from '@app/common/enums/errorCodeEnum';
 import { RoleService } from '../role/role.service';
+import { handleMenuToTree } from '@app/common/utils/handleMenu';
 
 @Injectable()
 export class UserService {
@@ -34,14 +35,14 @@ export class UserService {
 
   findAll() {
     return this.userRepository.find({
-      relations: ['roles', 'roles.permissions'],
+      relations: ['roles', 'roles.permissions', 'roles.menus'],
     });
   }
 
   findOne(id: bigint) {
     return this.userRepository.findOne({
       where: { id },
-      relations: ['roles', 'roles.permissions'],
+      relations: ['roles', 'roles.permissions', 'roles.menus'],
     });
   }
 
@@ -73,5 +74,21 @@ export class UserService {
 
   remove(id: number) {
     return this.userRepository.delete(id);
+  }
+
+  async getMenusById(id: bigint) {
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: ['roles', 'roles.permissions', 'roles.menus'],
+    });
+    if (!user) {
+      throw new ApiException(ErrorCodeEnum.USER_Login_Error);
+    }
+    const allMenus = user.roles.reduce((result, item) => {
+      return [...result, ...item.menus];
+    }, []);
+    return {
+      menus: handleMenuToTree(allMenus),
+    };
   }
 }

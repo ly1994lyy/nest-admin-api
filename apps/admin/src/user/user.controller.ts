@@ -30,6 +30,11 @@ export class UserController {
     return this.userService.findOne(BigInt(+id));
   }
 
+  @Get(':userId/menus')
+  getMenus(@Param('userId') userId: string) {
+    return this.userService.getMenusById(BigInt(+userId));
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
