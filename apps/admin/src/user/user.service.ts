@@ -91,4 +91,9 @@ export class UserService {
       menus: handleMenuToTree(allMenus),
     };
   }
+
+  async getCurrentUserInfo(id: bigint) {
+    const userInfo = await this.findOne(id);
+    return userInfo;
+  }
 }

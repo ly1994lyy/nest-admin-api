@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -22,6 +23,11 @@ export class UserController {
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
+  }
+
+  @Get('userInfo')
+  async getCurrentUserInfo(@Req() req) {
+    return await this.userService.getCurrentUserInfo(req.user.id);
   }
 
   @ApiOperation({ summary: '获取所有用户' })
