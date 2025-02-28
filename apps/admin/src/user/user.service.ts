@@ -94,6 +94,10 @@ export class UserService {
 
   async getCurrentUserInfo(id: bigint) {
     const userInfo = await this.findOne(id);
-    return userInfo;
+    const menus = await this.getMenusById(id);
+    return {
+      ...userInfo,
+      ...menus,
+    };
   }
 }
